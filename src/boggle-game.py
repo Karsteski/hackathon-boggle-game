@@ -39,7 +39,5 @@ gui = GameGUI(800, 600)
 gui.start()
 
 while dpg.is_dearpygui_running():
-    gui.run()    
-    
-
-    
+    gui.run()
+    print(gui.current_word)
