@@ -1,9 +1,13 @@
 import dearpygui.dearpygui as dpg
 
+
 class GameGUI(object):
     """
     GUI for the game of Boggle
     """
+
+    buttons = []
+    current_word = ["t", "e", "s", "t"]
 
     def __init__(self, window_width, window_height):
         self.window_width = window_width
@@ -15,11 +19,25 @@ class GameGUI(object):
         dpg.setup_dearpygui(viewport=self.viewport)
 
         with dpg.window(id="Primary Window", label="Example-Window"):
-            dpg.add_button(label="moo")
-        
-        dpg.set_primary_window("Primary Window", True) # So that window fills the entire viewport
+            # Create button grid
+            for x in range(5):
+                for y in range(5):
+                    dpg.add_button(id=(str(x) + str(y)), label=(str(x) + "," + str(y)))
+                    if y < 4:
+                        dpg.add_same_line()
 
-        dpg.show_viewport(self.viewport)
+            # Game Function Buttons
+            dpg.add_button(id="reset", label="Reset")
+            dpg.add_same_line()
+            dpg.add_button(id="new_word", label="New Word")
+            dpg.add_same_line()
+            dpg.add_button(id="set_word", label="Set Word")
+
+            # Current Word
+            dpg.add_text(self.current_word)
+
+            dpg.set_primary_window("Primary Window", True)  # So that window fills the entire viewport
+            dpg.show_viewport(self.viewport)
 
     def run(self):
         dpg.render_dearpygui_frame()
