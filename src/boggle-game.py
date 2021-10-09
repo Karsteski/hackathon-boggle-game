@@ -40,4 +40,3 @@ gui.start()
 
 while dpg.is_dearpygui_running():
     gui.run()
-    print(gui.current_word)

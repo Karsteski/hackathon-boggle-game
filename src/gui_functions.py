@@ -23,6 +23,9 @@ class GameGUI(object):
     def new_word_callback(self, sender, data):
         self.current_word.clear()
 
+    def update_current_word_callback(self, sender, data):
+        print("hi")
+
     def start(self):
         dpg.setup_dearpygui(viewport=self.viewport)
 
@@ -43,14 +46,17 @@ class GameGUI(object):
             dpg.add_same_line()
             dpg.add_button(id="set_word", label="Set Word")
 
-            # Current Word
-            dpg.add_text(self.current_word)
-
             dpg.set_primary_window("Primary Window", True)  # So that window fills the entire viewport
             dpg.show_viewport(self.viewport)
 
+            # Display current word
+            dpg.add_text(self.current_word, id="current_word")
+
     def run(self):
         dpg.render_dearpygui_frame()
+
+        # Change displayed word
+        dpg.set_value(item="current_word", value=self.current_word)
 
     def exit(self):
         dpg.cleanup_dearpygui()
