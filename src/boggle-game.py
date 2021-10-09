@@ -1,4 +1,4 @@
-import gui_functions
+from gui_functions import *
 import random
 
 print
@@ -34,3 +34,12 @@ class Boggle:
 boggle = Boggle("ONE", "TWO")
 boggle.scramble_board()
 boggle.print()
+
+gui = GameGUI(800, 600)
+gui.start()
+
+while dpg.is_dearpygui_running():
+    gui.run()    
+    
+
+    
