@@ -1,7 +1,7 @@
-#!/usr/bin/python3
-
+import gui_functions
 import random
 
+print
 LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 N = 5
 
