@@ -1,5 +1,7 @@
 import dearpygui.dearpygui as dpg
-
+import dearpygui.themes as dpgThemes
+from boggleThemes import *
+from boggleMenu import *
 
 class GameGUI(object):
     """
@@ -9,9 +11,10 @@ class GameGUI(object):
     LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     current_grid = [[], [], [], [], []]
     current_word = []
-    next_grid = [[], [], [], [], []]  # For reset grid
+    next_grid    = [[], [], [], [], []]  # For reset grid
 
     def __init__(self, window_width, window_height, input_grid):
+        dpgThemes.create_theme_imgui_light(default_theme=False)
         self.window_width = window_width
         self.window_height = window_height
         self.current_grid = input_grid
@@ -28,33 +31,54 @@ class GameGUI(object):
     def reset_button_callback(self, sender, data):
         self.current_grid = self.next_grid
 
+    def save_word_callback(self):
+        self.current_word.clear()
+
     def start(self):
+
+        #Adding menu to the primary window.
+        add_menu()
+        
         dpg.setup_dearpygui(viewport=self.viewport)
 
         with dpg.window(id="Primary Window", label="Example-Window"):
             # Create button grid
             n = 0  # For grid layout
+
             N,M = 5,5
             for j in range(M):
                 for i in range(N):
+
                     dpg.add_button(
                         label=self.current_grid[j][i], id=(str(5*j+i)),
                         pos=(i*100,j*100),
                         callback=self.grid_button_callback
                     )  # The id is just meant to be unique
 
+                    set_button_theme_One(
+                        (str(5*j+i), j, 23, 140, 255
+                        )
 
 
             # Game Function Buttons
+            dpg.add_same_line(spacing=20)
+            dpg.add_spacing(count=3)
             dpg.add_button(id="reset", label="Reset", callback=self.reset_button_callback)
-            dpg.add_same_line()
+            dpg.add_same_line(spacing=10)
             dpg.add_button(id="new_word", label="New Word", callback=self.new_word_callback)
+            dpg.add_same_line(spacing=10)
+            dpg.add_button(id="save_word", label="Save Word", callback=self.save_word_callback)
 
             dpg.set_primary_window("Primary Window", True)  # So that window fills the entire viewport
             dpg.show_viewport(self.viewport)
 
             # Display current word
             dpg.add_text(self.current_word, id="current_word")
+
+        #Orange themed functions button
+        set_button_theme_Two("reset", "theme_1", 255, 140, 23)      
+        set_button_theme_Two("new_word", "theme_2", 255, 140, 23)  
+        set_button_theme_Two("save_word", "theme_3", 255, 140, 23)
 
     def run(self):
         dpg.render_dearpygui_frame()
