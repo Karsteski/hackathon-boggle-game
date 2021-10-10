@@ -1,5 +1,4 @@
 import dearpygui.dearpygui as dpg
-import random
 
 
 class GameGUI(object):
@@ -7,45 +6,51 @@ class GameGUI(object):
     GUI for the game of Boggle
     """
 
-    current_grid = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    # current_grid = []
-
+    LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    current_grid = [[], [], [], [], []]
     current_word = []
+    next_grid = [[], [], [], [], []]  # For reset grid
 
-    def __init__(self, window_width, window_height):
+    def __init__(self, window_width, window_height, input_grid):
         self.window_width = window_width
         self.window_height = window_height
-
+        self.current_grid = input_grid
         self.viewport = dpg.create_viewport(title="Hackathon Game - Boggle", width=window_width, height=window_height)
 
     def grid_button_callback(self, sender, data):
         self.current_word.append(dpg.get_item_label(sender))
 
+    # Reset current word
     def new_word_callback(self, sender, data):
         self.current_word.clear()
 
-    def update_current_word_callback(self, sender, data):
-        print("hi")
+    # Reset grid.
+    def reset_button_callback(self, sender, data):
+        self.current_grid = self.next_grid
 
     def start(self):
         dpg.setup_dearpygui(viewport=self.viewport)
 
         with dpg.window(id="Primary Window", label="Example-Window"):
             # Create button grid
-            for x in range(5):
-                for y in range(5):
+            n = 0  # For grid layout
+            for outer_grid in self.current_grid:
+                for inner_grid in outer_grid:
                     dpg.add_button(
-                        label=random.choice(self.current_grid), id=(str(x) + str(y)), callback=self.grid_button_callback
-                    )
-                    if y < 4:
+                        label=inner_grid, id=(str(inner_grid) + str(n)), callback=self.grid_button_callback
+                    )  # The id is just meant to be unique
+
+                    if n < 4:
                         dpg.add_same_line()
+                    if n >= 4:
+                        n = 0
+                    else:
+                        n += 1
 
             # Game Function Buttons
-            dpg.add_button(id="reset", label="Reset")
+            dpg.add_button(id="reset", label="Reset", callback=self.reset_button_callback)
             dpg.add_same_line()
             dpg.add_button(id="new_word", label="New Word", callback=self.new_word_callback)
-            dpg.add_same_line()
-            dpg.add_button(id="set_word", label="Set Word")
 
             dpg.set_primary_window("Primary Window", True)  # So that window fills the entire viewport
             dpg.show_viewport(self.viewport)
@@ -59,12 +64,8 @@ class GameGUI(object):
         # Change displayed word
         dpg.set_value(item="current_word", value=self.current_word)
 
+        # Change displayed grid
+        # Need to iterate over the grid buttons and reset them somehow... Might be a headache *_*
+
     def exit(self):
         dpg.cleanup_dearpygui()
-
-    def get_current_word(self):
-        return self.current_word
-
-    # def reset_word(self):
-
-    # def set_word(self):
