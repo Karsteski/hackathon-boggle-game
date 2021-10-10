@@ -34,18 +34,14 @@ class GameGUI(object):
         with dpg.window(id="Primary Window", label="Example-Window"):
             # Create button grid
             n = 0  # For grid layout
-            for outer_grid in self.current_grid:
-                for inner_grid in outer_grid:
+            N,M = 5,5
+            for j in range(M):
+                for i in range(N):
                     dpg.add_button(
-                        label=inner_grid, id=(str(inner_grid) + str(n)), callback=self.grid_button_callback
+                        label=self.current_grid[j][i], id=(str(5*j+i)), callback=self.grid_button_callback
                     )  # The id is just meant to be unique
+                dpg.add_same_column()
 
-                    if n < 4:
-                        dpg.add_same_line()
-                    if n >= 4:
-                        n = 0
-                    else:
-                        n += 1
 
             # Game Function Buttons
             dpg.add_button(id="reset", label="Reset", callback=self.reset_button_callback)
