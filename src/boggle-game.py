@@ -6,9 +6,20 @@ import random
 from copy import deepcopy
 LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 N=5
+SCORING_RULES={0:0,1:0,2:0,3:1,4:1,5:2,6:3,7:5,8:11}
+for i in range(12,37):
+    SCORING_RULES[i]=11
+    
+def parse_ui(ui):
+    wordlist2d=ui.split("-")
+    rv=[]
+    for wordlist in wordlist2d:
+        rv.append(wordlist.split(" "))
+    return rv
 class Boggle:
     def __init__(self,pv):
         self.pv = pv
+        self.scores = [ 0 for e in pv]
         
         self.g=[
                ['-']*N for i in range(N)
@@ -57,21 +68,40 @@ class Boggle:
                 if self.g[y][x]==s[0] and self.valid_recursive(deepcopy(self.g),y,x,s): return True
         return False
 
-    def process_player_word_lists(self):
-        ui=input("input player word list\n")
-        words=ui.split(" ")
-        print(words)
-        for word in words:
-            if self.find_word(word):
-                print(word," found in board")
-            else:
-                print(word," not found")
+    def process_player_word_lists(self,player_word_lists):
+        round_scores = [0 for e in self.pv]            
+        for i,words in enumerate(player_word_lists):
+            for word in words:
+                if self.find_word(word):
+                    print(word," found in board")
+                    
+                    round_scores[i]+=SCORING_RULES[len(word)]
+                else:
+                    print(word," not found")
+        maxi,max = 0,round_scores[0]
+        for j in range(1,len(round_scores)):
+            if round_scores[j]>max:
+                maxi,max=j,round_scores[j]
+        if round_scores.count(max)>1:
+            winners=[]
+            for j,score in enumerate(round_scores):
+                if score==max:
+                    winners.append(pv[j])
+            print("TIE!\nCONGRATULATIONS TO"," ".join(winners))
+        else:
+            print(pv[maxi],"Won with",round_scores[maxi],"points.")
+    def ui_player_word_lists(self):
+        ui=input("input player word lists. - is separator\n")
+        return parse_ui(ui)
     def play_round(self):
         self.scramble_board()
         self.print()
-        self.process_player_word_lists()
+        wordlists = self.ui_player_word_lists()
+        self.process_player_word_lists(wordlists)
+        
     def play_game(self,rounds):
         for i in range(rounds):
+            print("ROUND {}!".format(i))
             self.play_round()
         self.determine_winner()
             
