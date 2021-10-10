@@ -1,6 +1,7 @@
 import dearpygui.dearpygui as dpg
 import dearpygui.themes as dpgThemes
 from boggleThemes import *
+from boggleMenu import *
 
 class GameGUI(object):
     """
@@ -70,7 +71,7 @@ class GameGUI(object):
 
             # Display current word
             dpg.add_text(self.current_word, id="current_word")
-            
+
         #Orange themed functions button
         set_button_theme_Two("reset", "theme_1", 255, 140, 23)      
         set_button_theme_Two("new_word", "theme_2", 255, 140, 23)  
