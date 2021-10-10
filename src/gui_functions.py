@@ -38,9 +38,11 @@ class GameGUI(object):
             for j in range(M):
                 for i in range(N):
                     dpg.add_button(
-                        label=self.current_grid[j][i], id=(str(5*j+i)), callback=self.grid_button_callback
+                        label=self.current_grid[j][i], id=(str(5*j+i)),
+                        pos=(i*100,j*100),
+                        callback=self.grid_button_callback
                     )  # The id is just meant to be unique
-                dpg.add_same_column()
+
 
 
             # Game Function Buttons
