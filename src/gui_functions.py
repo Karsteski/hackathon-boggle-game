@@ -10,7 +10,7 @@ class GameGUI(object):
     LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     current_grid = [[], [], [], [], []]
     current_word = []
-    next_grid = [[], [], [], [], []]  # For reset grid
+    next_grid    = [[], [], [], [], []]  # For reset grid
 
     def __init__(self, window_width, window_height, input_grid):
         dpgThemes.create_theme_imgui_light(default_theme=False)
@@ -70,8 +70,10 @@ class GameGUI(object):
 
             # Display current word
             dpg.add_text(self.current_word, id="current_word")
-        set_button_theme_Two("reset", "theme_1", 255, 140, 23)      #Orange color reset button
-        set_button_theme_Two("new_word", "theme_2", 255, 140, 23)   #Orange color reset button
+            
+        #Orange themed functions button
+        set_button_theme_Two("reset", "theme_1", 255, 140, 23)      
+        set_button_theme_Two("new_word", "theme_2", 255, 140, 23)  
         set_button_theme_Two("save_word", "theme_3", 255, 140, 23)
 
     def run(self):
