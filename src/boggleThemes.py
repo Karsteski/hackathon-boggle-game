@@ -36,19 +36,18 @@ def open_file():
     dpg.file_dialog(default_filename="sample.txt")
 
 
-#Primary window Main Menu Bar
-""" TREE
--Options
-|---Open File
-|---Settings 
-   |---Increase Font
-   |---Decrease Font
--Help
-|---About
-|---Git Repo
-"""
-
 def add_menu():
+    #Primary window Main Menu Bar
+    """ TREE
+    -Options
+    |---Open File
+    |---Settings 
+    |---Increase Font
+    |---Decrease Font
+    -Help
+    |---About
+    |---Git Repo
+    """
     with dpg.menu_bar():
         with dpg.menu(label="Options"):
             dpg.add_menu_item(label="Open FIle", callback=open_file)
