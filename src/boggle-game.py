@@ -1,7 +1,6 @@
 from gui_functions import *
 import random
 
-print
 LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 N = 5
 
@@ -38,5 +37,7 @@ boggle.print()
 gui = GameGUI(800, 600)
 gui.start()
 
+# Main Loop
 while dpg.is_dearpygui_running():
     gui.run()
+

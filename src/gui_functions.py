@@ -7,7 +7,8 @@ class GameGUI(object):
     GUI for the game of Boggle
     """
 
-    LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    current_grid = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    # current_grid = []
 
     current_word = []
 
@@ -34,7 +35,7 @@ class GameGUI(object):
             for x in range(5):
                 for y in range(5):
                     dpg.add_button(
-                        label=random.choice(self.LETTERS), id=(str(x) + str(y)), callback=self.grid_button_callback
+                        label=random.choice(self.current_grid), id=(str(x) + str(y)), callback=self.grid_button_callback
                     )
                     if y < 4:
                         dpg.add_same_line()
@@ -61,7 +62,8 @@ class GameGUI(object):
     def exit(self):
         dpg.cleanup_dearpygui()
 
-    # def get_clicked_positions(self):
+    def get_current_word(self):
+        return self.current_word
 
     # def reset_word(self):
 
