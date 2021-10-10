@@ -9,7 +9,6 @@ class GameGUI(object):
     """
 
     LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    current_grid = [[], [], [], [], []]
     current_word = []
     next_grid    = [[], [], [], [], []]  # For reset grid
 
@@ -42,20 +41,21 @@ class GameGUI(object):
             n = 0  # For grid layout
             #Adding menu to the primary window.
             add_menu()
-            for outer_grid in self.current_grid:
-                for inner_grid in outer_grid:
+            M,N = 5,5
+            for j in range(M):
+                for i in range(N):
                     dpg.add_button(
-                        label=inner_grid, id=(str(inner_grid) + str(n)), callback=self.grid_button_callback
+                        label=self.current_grid[j][i],
+                        id=str(j*5+i),
+                        pos=(i*100,j*100),
+                        callback=self.grid_button_callback
                     )  # The id is just meant to be unique
-                    set_button_theme_One(
-                        (str(inner_grid) + str(n)), inner_grid, 23, 140, 255
-                        )
-                    if n < 4:
-                        dpg.add_same_line()
-                    if n >= 4:
-                        n = 0
-                    else:
-                        n += 1
+#                    set_button_theme_One(
+#                        str(j*5+i),
+#                        str(j*5+i),
+#                        23, 140, 255
+#                        )
+
 
             # Game Function Buttons
             dpg.add_same_line(spacing=20)
