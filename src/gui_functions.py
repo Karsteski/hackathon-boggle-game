@@ -3,6 +3,8 @@ import dearpygui.themes as dpgThemes
 from boggleThemes import *
 from boggleMenu import *
 
+def print_value(sender):
+    print(dpg.get_value(sender))
 class GameGUI(object):
     """
     GUI for the game of Boggle
@@ -18,8 +20,9 @@ class GameGUI(object):
         self.window_height = window_height
         self.current_grid = input_grid
         self.viewport = dpg.create_viewport(title="Hackathon Game - Boggle", width=window_width, height=window_height)
-
+        self.appfont="../resources/lucon.ttf"
     def grid_button_callback(self, sender, data):
+        print_value(sender)
         self.current_word.append(dpg.get_item_label(sender))
 
     # Reset current word
@@ -36,27 +39,34 @@ class GameGUI(object):
     def start(self):
         dpg.setup_dearpygui(viewport=self.viewport)
 
+        with dpg.font_registry():
+            dpg.add_font(self.appfont, 50, default_font=True)
+
         with dpg.window(id="Primary Window", label="Example-Window"):
             # Create button grid
             n = 0  # For grid layout
             #Adding menu to the primary window.
             add_menu()
             M,N = 5,5
+            y_margin,x_margin=60,60
             for j in range(M):
                 for i in range(N):
-                    dpg.add_button(
+                    id=dpg.add_button(
                         label=self.current_grid[j][i],
-                        id=str(j*5+i),
-                        pos=(i*100,j*100),
-                        callback=self.grid_button_callback
-                    )  # The id is just meant to be unique
-#                    set_button_theme_One(
-#                        str(j*5+i),
-#                        str(j*5+i),
-#                        23, 140, 255
-#                        )
-
-
+                        id=200+j*5+i,
+                        pos=(x_margin+i*100,y_margin+j*100),
+                        callback=self.grid_button_callback,
+                        width=100,
+                        height=100,
+                    ) 
+                    print(id)
+                    # The id is just meant to be unique
+                    # set_button_theme_One(
+                       # str(j*5+i),
+                       # "One",
+                       # 23, 140, 255
+                       # )
+            
             # Game Function Buttons
             dpg.add_same_line(spacing=20)
             dpg.add_spacing(count=3)
